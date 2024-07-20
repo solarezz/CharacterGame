@@ -15,9 +15,11 @@ def send_welcome(message):
                 f'\n'\
                 f'      Разработчик: @solarezzov \n'\
                 f'╰────────»»❀❀❀««────────╯'
-    #bot.reply_to(message, f'Привет, {message.from_user.first_name}')
     bot.reply_to(message, message_)
-    
-    database.db_table_val(user_id=message.from_user.id, user_name=message.from_user.first_name)
+    try:
+        database.db_table_val(user_id=message.from_user.id, user_name=message.from_user.first_name)
+    except:
+        pass
     
 bot.infinity_polling()
+print("bot started")
