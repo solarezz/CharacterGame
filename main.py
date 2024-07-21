@@ -34,8 +34,7 @@ def callback_handler(call):
         bot.send_message(call.message.chat.id, 'Вы выбрали опцию "Питомец"')
 
 def profile_function(message):
-    # Здесь можно добавить функционал для обработки выбора "Профиль"
-    bot.send_message(message.chat.id, 'Вы выбрали опцию "Профиль". Выполняю действия по профилю...')
+    bot.send_message(message.chat.id, f'Ваш профиль:\nИмя: {database.db_info_username(user_id=message.chat.id)[0]}\nВаш питомец: {database.db_info_pet(user_id=message.chat.id)[0]}')
     
 bot.infinity_polling()
 print("bot started")
