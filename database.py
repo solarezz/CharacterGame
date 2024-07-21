@@ -6,6 +6,19 @@ cursor = connection.cursor()
 def db_table_val(user_id: int, user_name: str):
 	cursor.execute('INSERT INTO users (user_id, user_name) VALUES (?, ?)', (user_id, user_name))
 	connection.commit()
+
+def db_info(user_id: int):
+    cursor.execute('SELECT * FROM users WHERE user_id == ?', (user_id,))
+    result = cursor.fetchone()
+    return result
+ 
+def request_partner_id(request_partner_id: int, user_id: int,):
+    cursor.execute('UPDATE users SET request_partner_id = ? WHERE user_id = ?', (request_partner_id, user_id))
+
+def db_partner(partner_id: int, partner_name: str, user_id: int):
+    cursor.execute('UPDATE users SET partner_id = ? WHERE user_id = ?', (partner_id, user_id))
+    cursor.execute('UPDATE users SET partner_name = ? WHERE user_id = ?', (partner_name, user_id))
+    connection.commit()
  
 def db_info_pet(user_id: int):
     cursor.execute('SELECT pet FROM users WHERE user_id == ?', (user_id,))
