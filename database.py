@@ -14,6 +14,7 @@ def db_info(user_id: int):
  
 def request_partner_id(request_partner_id: int, user_id: int,):
     cursor.execute('UPDATE users SET request_partner_id = ? WHERE user_id = ?', (request_partner_id, user_id))
+    connection.commit()
 
 def db_partner(partner_id: int, partner_name: str, user_id: int):
     cursor.execute('UPDATE users SET partner_id = ? WHERE user_id = ?', (partner_id, user_id))
