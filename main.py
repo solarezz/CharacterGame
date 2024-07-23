@@ -59,7 +59,8 @@ def choice_pet(message):
     button_hamster = types.InlineKeyboardButton('🐹 Хомяк', callback_data='hamster')
     button_turtle = types.InlineKeyboardButton('🐢 Черепаха', callback_data='turtle')
     button_parrot = types.InlineKeyboardButton('🦜 Попугай', callback_data='parrot')
-    markup.row(button_dog, button_cat, button_squirrel, button_hamster, button_turtle, button_parrot)
+    markup.add(button_dog, button_cat, button_squirrel)
+    markup.add(button_hamster, button_turtle, button_parrot)
     bot.send_message(message.chat.id, "Выберите питомца: ", reply_markup=markup)
 
 
