@@ -8,6 +8,7 @@ bot = telebot.TeleBot(API_TOKEN)
 
 id = [0]
 name = ['0']
+username = ['0']
 
 @bot.message_handler(commands=['help', 'start'])
 def send_welcome(message):
@@ -25,7 +26,7 @@ def send_welcome(message):
     markup.row(button_profile, button_pet, button_partner)
     bot.reply_to(message, message_, reply_markup=markup)
     try:
-        database.db_table_val(user_id=message.from_user.id, user_name=message.from_user.first_name)
+        database.db_table_val(user_id=message.from_user.id, user_name=message.from_user.first_name, user_nameid=message.from_user.username)
     except:
         pass
 
@@ -38,6 +39,7 @@ def handle_id_input(message):
     part = message.text
     name[0] = message.from_user.first_name
     id[0] = message.chat.id
+    username[0] = message.from_user.username
     database.request_partner_id(part, message.chat.id)
     try:
         bot.send_message(part, "📨 Вам отправили запрос на партнерство", reply_markup=markup)
@@ -76,7 +78,7 @@ def callback_handler(call):
             choice_pet(call.message)
     elif call.data == 'partner':
         if database.db_info(call.message.chat.id)[4] > 0:
-            bot.send_message(call.message.chat.id, "❌ У вас уже есть партнёр!")
+            bot.send_message(call.message.chat.id, f"Информация по партнёру:\nВаш партнёр: {database.db_info(call.message.chat.id)[8]} ")
         else:
             bot.send_message(call.message.chat.id, "⌨️ Введите [ID] пользователя: ")
     elif call.data == 'yes':
@@ -162,8 +164,8 @@ def callback_handler(call):
 def profile_partner(message):
     bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id, text= "🤝🏻 Вы теперь партнеры")
     bot.send_message(id[0], "🤝🏻 Вы теперь партнеры")
-    database.db_partner(database.db_info(message.chat.id)[0], database.db_info(message.chat.id)[1], id[0])
-    database.db_partner(id[0], name[0], message.chat.id)
+    database.db_partner(database.db_info(message.chat.id)[0], database.db_info(message.chat.id)[1], id[0], database.db_info(message.chat.id)[7])
+    database.db_partner(id[0], name[0], message.chat.id, username[0])
     database.request_partner_id(0, id[0])
     
 def profile_function(message):
